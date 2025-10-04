@@ -6,6 +6,10 @@
     "publisher": "NightDustChen",
     "license": "MIT",
     "homepage": "https://github.com/RICHARDCJ249",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/NightDustChen/clangd-insight"
+    },
     "icon": "icon.png",
     "engines": {
         "vscode": "^1.65.0"
