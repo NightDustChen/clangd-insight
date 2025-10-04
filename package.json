@@ -1,0 +1,227 @@
+{
+    "name": "clangd-insight",
+    "displayName": "Clangd Insight",
+    "description": "C/C++ 代码补全、导航、全局函数引用树状分析，依赖 clangd 和 ctags。",
+    "version": "2.0.0",
+    "publisher": "NightDustChen",
+    "license": "MIT",
+    "homepage": "https://github.com/RICHARDCJ249",
+    "icon": "icon.png",
+    "engines": {
+        "vscode": "^1.65.0"
+    },
+    "categories": [
+        "Programming Languages",
+        "Linters",
+        "Formatters"
+    ],
+    "keywords": [
+        "C",
+        "C++",
+        "clang",
+        "clangd",
+        "ctags",
+        "Source Insight",
+        "references tree"
+    ],
+    "activationEvents": [
+        "onLanguage:c",
+        "onLanguage:cpp",
+        "onLanguage:cuda-cpp",
+        "onLanguage:objective-c",
+        "onLanguage:objective-cpp",
+        "onCommand:clangd.activate",
+        "onCommand:clangd.install",
+        "onCommand:clangd.update"
+    ],
+    "main": "./out/bundle",
+    "scripts": {
+        "esbuild": "esbuild ./src/extension.ts --bundle --outfile=out/bundle.js --external:vscode --format=cjs --platform=node",
+        "vscode:prepublish": "npm run check-ts && npm run esbuild -- --minify --keep-names",
+        "compile": "npm run esbuild -- --sourcemap",
+        "check-ts": "tsc -noEmit -p ./",
+        "format": "clang-format -i --glob=\"{src,test}/*.ts\"",
+        "test-compile": "tsc -p ./ && npm run compile",
+        "test": "npm run test-compile && node ./out/test/index.js",
+        "package": "vsce package --baseImagesUrl https://raw.githubusercontent.com/clangd/vscode-clangd/master/",
+        "publish": "vsce publish --baseImagesUrl https://raw.githubusercontent.com/clangd/vscode-clangd/master/",
+        "publish-openvsx": "ovsx publish --baseImagesUrl https://raw.githubusercontent.com/clangd/vscode-clangd/master/",
+        "git-clang-format": "git-clang-format --extensions=ts"
+    },
+    "dependencies": {
+        "@clangd/install": "0.1.17",
+        "vscode-languageclient": "8.0.2"
+    },
+    "devDependencies": {
+        "@types/vscode": "1.65.0",
+        "clang-format": "^1.7.0",
+        "esbuild": "^0.14.13",
+        "typescript": "^4.5.5",
+        "vsce": "^2.15.0",
+        "vscode-test": "^1.3.0"
+    },
+    "qna": "marketplace",
+    "contributes": {
+        "languages": [
+            {
+                "id": "cpp",
+                "filenamePatterns": [
+                    "**/include/c++/**",
+                    "**/MSVC/*/include/**"
+                ],
+                "firstLine": "^/[/*].*-\\*-\\s*C\\+\\+\\s*-\\*-.*"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "clangd",
+            "properties": {
+                "clangd.ctagPath": {
+                    "type": "string",
+                    "default": "ctags",
+                    "scope": "machine-overridable",
+                    "description": "The path to ctags executable, e.g.: /usr/bin/ctags"
+                }
+            }
+        },
+        "commands": [
+            {
+                "command": "ci.ref-view-1.refresh",
+                "category": "clangd.ci",
+                "title": "Refresh clangd insight reference window",
+                "icon": "$(sync)"
+            },
+            {
+                "command": "ci.ref-view-2.refresh",
+                "category": "clangd.ci",
+                "title": "Refresh clangd insight reference window",
+                "icon": "$(sync)"
+            },
+            {
+                "command": "ci.ref-view-3.refresh",
+                "category": "clangd.ci",
+                "title": "Refresh clangd insight reference window",
+                "icon": "$(sync)"
+            },
+            {
+                "command": "ci.ref-view-4.refresh",
+                "category": "clangd.ci",
+                "title": "Refresh clangd insight reference window",
+                "icon": "$(sync)"
+            },
+            {
+                "command": "ci.jump",
+                "title": "Jump to location"
+            },
+            {
+                "command": "ci.ref-view.jumpPrev",
+                "title": "Jump prev reference",
+                "icon": "$(arrow-up)"
+            },
+            {
+                "command": "ci.ref-view.jumpNext",
+                "title": "Jump next reference",
+                "icon": "$(arrow-down)"
+            },
+            {
+                "command": "ci.test",
+                "title": "CI Test command"
+            }
+        ],
+        "keybindings": [
+        ],
+        "menus": {
+            "view/title": [
+                {
+                    "command": "ci.ref-view-1.refresh",
+                    "when": "view == ci.ref-view-1",
+                    "group": "navigation"
+                },
+                {
+                    "command": "ci.ref-view-2.refresh",
+                    "when": "view == ci.ref-view-2",
+                    "group": "navigation"
+                },
+                {
+                    "command": "ci.ref-view-3.refresh",
+                    "when": "view == ci.ref-view-3",
+                    "group": "navigation"
+                },
+                {
+                    "command": "ci.ref-view-4.refresh",
+                    "when": "view == ci.ref-view-4",
+                    "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "ci.ref-view.jumpNext",
+                    "when": "(view == ci.ref-view-1 || view == ci.ref-view-2 || view == ci.ref-view-3 || view == ci.ref-view-4) && (viewItem == child)",
+                    "group": "inline@2"
+                },
+                {
+                    "command": "ci.ref-view.jumpPrev",
+                    "when": "(view == ci.ref-view-1 || view == ci.ref-view-2|| view == ci.ref-view-3 || view == ci.ref-view-4) && (viewItem == child)",
+                    "group": "inline@1"
+                }
+            ],
+            "commandPalette": [
+            ]
+        },
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "ci-view",
+                    "title": "Clangd insight",
+                    "icon": "$(symbol-reference)"
+                }
+            ]
+        },
+        "viewsWelcome": [
+            {
+                "view": "ci.ref-view-1",
+                "contents": "References Window \n Try to click refresh to get the references.\n [REFRESH](command:ci.ref-view-1.refresh)",
+                "when": "true"
+            },
+            {
+                "view": "ci.ref-view-2",
+                "contents": "References Window \n Try to click refresh to get the references.\n [REFRESH](command:ci.ref-view-2.refresh)",
+                "when": "true"
+            },
+            {
+                "view": "ci.ref-view-3",
+                "contents": "References Window \n Try to click refresh to get the references.\n [REFRESH](command:ci.ref-view-3.refresh)",
+                "when": "true"
+            },
+            {
+                "view": "ci.ref-view-4",
+                "contents": "References Window \n Try to click refresh to get the references.\n [REFRESH](command:ci.ref-view-4.refresh)",
+                "when": "true"
+            }
+        ],
+        "views": {
+            "ci-view": [
+                {
+                    "id": "ci.ref-view-1",
+                    "name": "Clangd insight reference",
+                    "type": "tree"
+                },
+                {
+                    "id": "ci.ref-view-2",
+                    "name": "Clangd insight reference",
+                    "type": "tree"
+                },
+                {
+                    "id": "ci.ref-view-3",
+                    "name": "Clangd insight reference",
+                    "type": "tree"
+                },
+                {
+                    "id": "ci.ref-view-4",
+                    "name": "Clangd insight reference",
+                    "type": "tree"
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,33 @@
+# Node.js
+node_modules/
+
+# TypeScript build output
+out/
+
+# VSCode test output
+.vscode-test/
+
+# Logs
+*.log
+
+# Mac/Linux/Windows system files
+.DS_Store
+Thumbs.db
+
+# VSIX packages
+*.vsix
+
+# npm debug
+npm-debug.log*
+
+# Coverage
+coverage/
+
+# Others
+.env
+
+# Ignore test build artifacts
+*.test.js
+*.test.tsbuildinfo
+
+VSCE_Token.txt
