@@ -78,9 +78,9 @@
         ],
         "configuration": {
             "type": "object",
-            "title": "clangd",
+            "title": "clangd-insight",
             "properties": {
-                "clangd.ctagPath": {
+                "ci.ctagPath": {
                     "type": "string",
                     "default": "ctags",
                     "scope": "machine-overridable",
